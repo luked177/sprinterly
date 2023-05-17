@@ -1,5 +1,3 @@
-"use client";
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/Card";
 import { X } from "lucide-react";
 import React from "react";
