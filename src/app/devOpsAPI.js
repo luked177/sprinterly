@@ -542,8 +542,9 @@ async function analyzeSprint(sprint, workItemDetails, team) {
 			case "User Story":
 				stats.userStories++;
 				usersStats[completedBy].userStories++;
-				stats.velocity += workItem.fields["Microsoft.VSTS.Scheduling.StoryPoints"];
-				usersStats[completedBy].storyPoints += workItem.fields["Microsoft.VSTS.Scheduling.StoryPoints"];
+				const effort = workItem.fields["Microsoft.VSTS.Scheduling.StoryPoints"];
+				stats.velocity += effort;
+				usersStats[completedBy].storyPoints += effort;
 				break;
 			case "Bug":
 				stats.bugs++;
@@ -581,18 +582,21 @@ async function analyzeSprint(sprint, workItemDetails, team) {
 
 async function fetchAreaPaths() {
 	const url = `https://dev.azure.com/${organization}/${project}/_apis/wit/classificationnodes?api-version=${apiVersion}&$depth=10&$expand=all`;
-	const areaPaths = [];
-	function extractAreaPaths(node) {
-		areaPaths.push(node.path);
 
-		if (node.children) {
-			for (const child of node.children) {
-				extractAreaPaths(child);
-			}
-		}
-	}
 	try {
 		const response = await axios.get(url, authHeader);
+		const areaPaths = [];
+
+		function extractAreaPaths(node) {
+			areaPaths.push(node.path);
+
+			if (node.children) {
+				for (const child of node.children) {
+					extractAreaPaths(child);
+				}
+			}
+		}
+
 		extractAreaPaths(response.data.value[0]);
 		return areaPaths;
 	} catch (error) {
