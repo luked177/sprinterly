@@ -22,7 +22,7 @@ export default function TeamSprintCard({ sprintStats, setDashboardInfo }) {
 						<X className='cursor-pointer' onClick={() => removeItem(sprintStats)} />
 					</div>
 				</CardTitle>
-				<CardDescription>An overview of stats</CardDescription>
+				<CardDescription>An overview of team stats</CardDescription>
 			</CardHeader>
 			<CardContent className='flex gap-5 justify-center'>
 				<div>
