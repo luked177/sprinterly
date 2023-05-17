@@ -1,3 +1,5 @@
+"use client";
+
 import { Suspense } from "react";
 import SprintCard from "../SprintCard";
 import { fetchAllSprints, fetchTeamNames } from "../devOpsAPI";
